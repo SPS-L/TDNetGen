@@ -18,7 +18,8 @@ function results_lf = export_data(export_format, results_lf, tap_info, penetrati
     if(strcmp(export_format,'matpower'))
         mpopt = mpoption('out.all', 0);
         td_data = ['output_data/' export_format '/cl' num2str(constant_load) '_pl' num2str(penetration_level) '_gw' num2str(generation_weight) '.mat'];
-        evalc('results_lf = runpf(results_lf, mpopt, td_data);');
+        td_datatxt = ['output_data/' export_format '/cl' num2str(constant_load) '_pl' num2str(penetration_level) '_gw' num2str(generation_weight) '.txt'];
+        evalc('results_lf = runpf(results_lf, mpopt, td_datatxt, td_data);');
     end
     
 	% Custom exporters
