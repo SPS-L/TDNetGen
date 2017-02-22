@@ -1,5 +1,6 @@
 function mpc = add_gen_costs_for_OPF(mpc, number_dn)
 % Adds the cost coefficients to the T&D model to run an OPF
+% Check the paper for more details
 
 gen_size = size(mpc.gen,1);
 dg_size = sum(number_dn);

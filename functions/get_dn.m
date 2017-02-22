@@ -19,7 +19,7 @@ mpc.bus(:,PD:QD) = oversize*mpc.bus(:,PD:QD);
 results_default = correct_dnvoltages(mpc, tap_info);
 results_default.gen(6:end,:) = [];
 
-if(oversize ~=1)
+if(oversize > 1.0)
     results_default.bus(:,PD:QD) = oversize*results_default.bus(:,PD:QD);
     evalc('results_default = runpf(results_default);');
 end
@@ -29,7 +29,7 @@ pv_powerlong = zeros(100,1);
 pv_powershort = zeros(100,1);
 mpc0 = mpc;
 
-if(penetration_level ~= 0)         
+if(penetration_level > 0)         
     if(random)
     	for k=1:100
             mpc = mpc0;
@@ -58,7 +58,7 @@ if(penetration_level ~= 0)
                 index = find(mpc.bus(:,BUS_I) == pv_gen(i));
                 pv_buses(i) = mpc.bus(index,BUS_I);
                 
-                % The PV panels act as a negative load with pf=1
+                % The PV panels act as a negative load with unity power factor
                 if(i < 5)
                     mpc.gen(i+1,PG) = pv_powershort(k);
                     mpc.gen(i+1,QMIN) = -9999;
@@ -125,7 +125,7 @@ if(penetration_level ~= 0)
             index = find(mpc.bus(:,BUS_I) == pv_gen(i));
             pv_buses(i) = mpc.bus(index,BUS_I);
 
-            % The PV panels act as a negative load with pf=1
+            % The PV panels act as a negative load with unity power factor
             if(i < 5)
                 mpc.gen(i+1,PG) = pv_powershort(1);
                 mpc.gen(i+1,QMIN) = -9999;

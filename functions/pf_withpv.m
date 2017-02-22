@@ -51,7 +51,7 @@ while(undervoltage == true || overvoltage == true)
         break;
     end
     
-    % If it does not converge in one second, try other parameters
+    % If it does not converge by dg_iterations then fail
     if(iterations > dg_iterations)
         fail = true;
         disp('No solution found, try to change the parameters');
@@ -74,10 +74,10 @@ while(tap_voltage == false)
     % Power flow calculation
     evalc('results_lf = runpf(mpc);');
     
-    % If it does not converge in one second, try other parameters
+    % If it does not converge by dg_iterations then fail
     if(iterations > dg_iterations)
         fail = true;
-        disp('No solution found, try to change the parameters (oversize)');
+        disp('No solution found, try to change the parameters (oversize). The script will continue but possible voltage problems in DNs.');
         break;
     end
     iterations = iterations + 1;

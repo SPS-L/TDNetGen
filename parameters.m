@@ -10,7 +10,7 @@ penetration_level = 0.5;
 
 % Does the DN consumption (seen by the TN) stay constant when PV generation
 % is introduced ? (cannot be combined with run_opf = true)
-constant_load = false;
+constant_load = true;
 
 % Introduce small randomization of parameters to avoid artificial synchronization due to 
 % identical systems
@@ -30,7 +30,7 @@ oversize = 1.0;
 
 % Format in which the power flow data is saved (matpower, artere, ramses or none)
 % Only one can be chosen.
-export_format = 'none';
+export_format = 'matpower';
 
 % Select if you want to perform an OPF solution with the provided formulation to fix any
 % voltage or congestion problems before exporting the data

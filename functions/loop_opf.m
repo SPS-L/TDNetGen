@@ -12,6 +12,7 @@ voltage_downlim = opf_setpoint - 0.1;
 for index=1:5
     for i=1:range
         l = find(results_opf.branch(:,F_BUS) == results_opf.bus(non_dn+i,BUS_I),1);
+		% Adjust the OLTC setpoints of the DNs
         if(results_opf.bus(non_dn+i,VM) <= voltage_downlim)
             results_opf.branch(l,TAP) = results_opf.branch(l,TAP) + 0.01;
         elseif(results_opf.bus(non_dn+i,VM) <= voltage_min)            
@@ -25,6 +26,7 @@ for index=1:5
         end
     end
     
+	% Perform an AC OPF solution
     if(verbose)
         results_opf = runopf(results_opf, mpopt);
     else

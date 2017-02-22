@@ -1,5 +1,7 @@
 function [results_opf, fail] = calc_opf(results_td, mpopt, number_gen, info_dn, non_split, non_dn, verbose, opf_setpoint)
-% Runs an OPF algorithm on the T&D system
+% Runs an OPF algorithm on the T&D system to optimize the operating point
+% This is a standard AC OPF as provided by Matpower and detailed in the user manual
+% For robustness, the voltage security limits are gradually tightenned in 4 steps
 
 define_constants;
 
