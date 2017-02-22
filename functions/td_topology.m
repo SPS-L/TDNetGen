@@ -1,4 +1,4 @@
-function [info_dn, dn_branch, resultslf_dn, pv_power, mt_power] = td_topology(constant_load, dn_buses, bus_nonsplit, branch_nonsplit, number_dn, resultslf_dn0, resultslf_tn, base_MVA, results_default, penetration_level, pv_powerlong, pv_powershort, oversize)
+function [info_dn, dn_branch, resultslf_dn, distributed_generation, mt_power] = td_topology(constant_load, dn_buses, bus_nonsplit, branch_nonsplit, number_dn, resultslf_dn0, resultslf_tn, base_MVA, results_default, penetration_level, dg_powerlong, dg_powershort, oversize)
 % Creates a new topology with DNs replacing the aggregated loads of the TN
 
 define_constants;
@@ -6,7 +6,7 @@ index = 0;
 info_dn = zeros(sum(number_dn)+size(bus_nonsplit,1),VMIN);
 dn_branch = zeros(sum(number_dn)+size(branch_nonsplit,1),ANGMAX);
 resultslf_dn = cell(sum(number_dn)+length(number_dn), 1);
-pv_power = zeros(sum(number_dn)+length(number_dn), 1);
+distributed_generation = zeros(sum(number_dn)+length(number_dn), 1);
 mt_power = zeros(sum(number_dn)+length(number_dn), 1);
 r = zeros(sum(number_dn)+length(number_dn), 2);
 
@@ -17,8 +17,8 @@ for i=1:size(dn_buses,1)
         % Store the DN topology
         random_index = mod(randi(10000),99)+1;
         resultslf_dn{index} = resultslf_dn0{random_index};
-        pv_power(index) = pv_powerlong(random_index);
-        mt_power(index) = pv_powershort(random_index);
+        distributed_generation(index) = dg_powerlong(random_index);
+        mt_power(index) = dg_powershort(random_index);
         
         if(j ~= number_dn(i)+1)
             % Get all the DN information in the matpower format

@@ -1,4 +1,4 @@
-function results_lf = export_data(export_format, results_lf, tap_info, penetration_level, generation_weight, run_opf, fail_opf, constant_load, pv, mt, pv_power, mt_power)
+function results_lf = export_data(export_format, results_lf, tap_info, penetration_level, generation_weight, run_opf, fail_opf, constant_load, pv, mt, distributed_generation, mt_power)
 % Export data in the desired format
 
     % Check if the folders exist
@@ -36,7 +36,7 @@ function results_lf = export_data(export_format, results_lf, tap_info, penetrati
     
     if(strcmp(export_format,'ramses'))
         filename = ['output_data/' export_format '/cl' num2str(constant_load) '_pl' num2str(penetration_level) '_gw' num2str(generation_weight) '.dat'];
-        export_ramses(filename, constant_load, penetration_level, generation_weight, run_opf, results_lf, tap_info, pv, mt, pv_power, mt_power);
+        export_ramses(filename, constant_load, penetration_level, generation_weight, run_opf, results_lf, tap_info, pv, mt, distributed_generation, mt_power);
     end
 
 end

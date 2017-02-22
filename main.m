@@ -42,7 +42,7 @@ end
 
 % Calculate the power flow of the template DN
 disp('Setting up distribution networks...');
-[results_default, resultslf_dn0, pv_buses, pv_powerlong, pv_powershort, fail] = get_dn(constant_load, random, penetration_level, generation_weight, oversize, pf_setpoint, dg_iterations);
+[results_default, resultslf_dn0, pv_buses, dg_powerlong, dg_powershort, fail] = get_dn(constant_load, random, penetration_level, generation_weight, oversize, pf_setpoint, dg_iterations);
 
 if(~fail)
     % Identify the aggregated loads in the TN corresponding to DNs
@@ -72,7 +72,7 @@ if(~fail)
 
     % Update the topology of the TN with the DNs
     disp('Integrating the DNs into the TN...');
-    [info_dn, dn_branch, resultslf_dn1, pv_power, mt_power] = td_topology(constant_load, dn_buses, bus_nonsplit, branch_nonsplit, number_dn, resultslf_dn0, resultslf_tn1, base_MVA, results_default, penetration_level, pv_powerlong, pv_powershort, oversize);
+    [info_dn, dn_branch, resultslf_dn1, distributed_generation, mt_power] = td_topology(constant_load, dn_buses, bus_nonsplit, branch_nonsplit, number_dn, resultslf_dn0, resultslf_tn1, base_MVA, results_default, penetration_level, dg_powerlong, dg_powershort, oversize);
 
     mpc2 = mpc;
     non_dn = (size(resultslf_tn1.bus,1) - size(dn_buses,1) - size(bus_nonsplit,1));
@@ -151,7 +151,7 @@ if(~fail)
     
     % Build the full T&D model
     disp('Building the full T&D model...');
-    [results_td, pv, mt] = merge_td(resultslf_tn4, resultslf_dn2, pv_buses, non_dn, non_split, penetration_level, constant_load, pv_power, mt_power);
+    [results_td, pv, mt] = merge_td(resultslf_tn4, resultslf_dn2, pv_buses, non_dn, non_split, penetration_level, constant_load, distributed_generation, mt_power);
    
     evalc('results_td = runpf(results_td);');
     if(oversize == 1)
@@ -174,9 +174,9 @@ if(~fail)
     if(~strcmp(export_format,'none') && results_td.success)
         % Export the data in the desired format
         if(run_opf == true && fail_opf == false)
-            results_lf = export_data(export_format, results_opf, tap_info, penetration_level, generation_weight, run_opf, fail_opf, constant_load, pv, mt, pv_power, mt_power);
+            results_lf = export_data(export_format, results_opf, tap_info, penetration_level, generation_weight, run_opf, fail_opf, constant_load, pv, mt, distributed_generation, mt_power);
         else
-            results_lf = export_data(export_format, results_td, tap_info, penetration_level, generation_weight, run_opf, fail_opf, constant_load, pv, mt, pv_power, mt_power);
+            results_lf = export_data(export_format, results_td, tap_info, penetration_level, generation_weight, run_opf, fail_opf, constant_load, pv, mt, distributed_generation, mt_power);
         end     
     end
     

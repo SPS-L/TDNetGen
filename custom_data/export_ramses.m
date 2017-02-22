@@ -1,4 +1,4 @@
-function export_ramses(filename, constant_load, penetration_level, generation_weight, run_opf, results_lf, tap_info, pv, mt, pv_power, mt_power)
+function export_ramses(filename, constant_load, penetration_level, generation_weight, run_opf, results_lf, tap_info, pv, mt, distributed_generation, mt_power)
 % Export data into RAMSES format for dynamic simulations
 
 define_constants;
@@ -106,7 +106,7 @@ if(penetration_level ~= 0)
         pv_name = strcat('PV',str_pv);
         index_dn = str2double(str_pv(2:3));
         fprintf(fileID,'%s %s %s %u %.0f %.0f %.4f %s',...
-            'INJEC', 'PVD',pv_name, pv(j,1), 0, 0, pv_power(index_dn), pv_info);
+            'INJEC', 'PVD',pv_name, pv(j,1), 0, 0, distributed_generation(index_dn), pv_info);
     end
     fprintf(fileID,'\n');
 end

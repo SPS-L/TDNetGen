@@ -1,4 +1,4 @@
-function [results_default, results_lf, pv_buses, pv_powerlong, pv_powershort, fail] = get_dn(constant_load, random, penetration_level, generation_weight, oversize, pf_setpoint, dg_iterations)
+function [results_default, results_lf, pv_buses, dg_powerlong, dg_powershort, fail] = get_dn(constant_load, random, penetration_level, generation_weight, oversize, pf_setpoint, dg_iterations)
 % Calculate the power flow with the data from the DN and the parameters chosen by the user 
 
 define_constants;
@@ -25,8 +25,8 @@ if(oversize > 1.0)
 end
 
 results_lf = cell(100,1);
-pv_powerlong = zeros(100,1);
-pv_powershort = zeros(100,1);
+dg_powerlong = zeros(100,1);
+dg_powershort = zeros(100,1);
 mpc0 = mpc;
 
 if(penetration_level > 0)         
@@ -48,11 +48,12 @@ if(penetration_level > 0)
             pv_gen = mpc.gen(2:end,GEN_BUS);
             pv_buses = zeros(length(pv_gen),1);
             initial_power = results_default.gen(1,PG);
-            pv_power = rand_penlevel*initial_power;
+            distributed_generation = rand_penlevel*initial_power;
 
-            % Get the power input for the long and the short lines
-            pv_powershort(k) = rand_genweight*pv_power/4;
-            pv_powerlong(k) = (1-rand_genweight)*pv_power/(length(pv_gen)-4);
+            % Get the power input for the long (PVs) and the short feeders (other DGs)
+			% The share is defined through the generation_weight variable
+            dg_powershort(k) = rand_genweight*distributed_generation/4;
+            dg_powerlong(k) = (1-rand_genweight)*distributed_generation/(length(pv_gen)-4);
 
             for i=1:length(pv_gen)
                 index = find(mpc.bus(:,BUS_I) == pv_gen(i));
@@ -60,19 +61,19 @@ if(penetration_level > 0)
                 
                 % The PV panels act as a negative load with unity power factor
                 if(i < 5)
-                    mpc.gen(i+1,PG) = pv_powershort(k);
+                    mpc.gen(i+1,PG) = dg_powershort(k);
                     mpc.gen(i+1,QMIN) = -9999;
-                    mpc.gen(i+1,PMAX) = pv_powershort(k);
+                    mpc.gen(i+1,PMAX) = dg_powershort(k);
                     S = sqrt(mpc.gen(i+1,PMAX)^2 + mpc.gen(i+1,QMAX)^2);
                     mpc.gen(i+1,MBASE) = ceil(S*10)/10;
-                    if(pv_powershort(k) > 0.1)
+                    if(dg_powershort(k) > 0.1)
                         mpc.gen(i+1,PMIN) = 0.1;
                     else
                         mpc.gen(i+1,PMIN) = 0;
                     end
                     mpc.gen(6:end,:) = [];
                 else
-                    mpc.bus(index,PD) = mpc.bus(index,PD) - pv_powerlong(k);
+                    mpc.bus(index,PD) = mpc.bus(index,PD) - dg_powerlong(k);
                 end
             end
 
@@ -115,30 +116,32 @@ if(penetration_level > 0)
         pv_gen = mpc.gen(2:end,GEN_BUS);
         pv_buses = zeros(length(pv_gen),1);
         initial_power = results_default.gen(1,PG);
-        pv_power = penetration_level*initial_power;
+        distributed_generation = penetration_level*initial_power;
 
-        % Get the power input for the long and the short lines
-        pv_powershort(:) = generation_weight*pv_power/4;
-        pv_powerlong(:) = (1-generation_weight)*pv_power/(length(pv_gen)-4);
+        % Get the power input for the long (PVs) and the short feeders (other DGs)
+		% The share is defined through the generation_weight variable
+        dg_powershort(:) = generation_weight*distributed_generation/4;
+        dg_powerlong(:) = (1-generation_weight)*distributed_generation/(length(pv_gen)-4);
 
         for i=1:length(pv_gen)
             index = find(mpc.bus(:,BUS_I) == pv_gen(i));
             pv_buses(i) = mpc.bus(index,BUS_I);
 
-            % The PV panels act as a negative load with unity power factor
+            % The DGs in the short feeders are considered as normal generators
             if(i < 5)
-                mpc.gen(i+1,PG) = pv_powershort(1);
+                mpc.gen(i+1,PG) = dg_powershort(1);
                 mpc.gen(i+1,QMIN) = -9999;
-                mpc.gen(i+1,MBASE) = pv_powershort(1);
-                mpc.gen(i+1,PMAX) = pv_powershort(1);
-                if(pv_powershort(1) > 0.1)
+                mpc.gen(i+1,MBASE) = dg_powershort(1);
+                mpc.gen(i+1,PMAX) = dg_powershort(1);
+                if(dg_powershort(1) > 0.1)
                     mpc.gen(i+1,PMIN) = 0.1;
                 else
                     mpc.gen(i+1,PMIN) = 0;
                 end
                 mpc.gen(6:end,:) = [];
             else
-                mpc.bus(index,PD) = mpc.bus(index,PD) - pv_powerlong(1);
+				% The PV panels act as a negative load with unity power factor
+                mpc.bus(index,PD) = mpc.bus(index,PD) - dg_powerlong(1);
             end
         end
 
