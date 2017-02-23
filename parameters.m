@@ -38,7 +38,7 @@ export_format = 'matpower';
 run_opf = true;
 
 % The results of the intermediate calls to Matpower are printed in command window.
-verbose = true;
+verbose = false;
 
 % Setpoint for the voltage at the first node of the DN. Used for fixing the distribution
 % transformer LTC deadband

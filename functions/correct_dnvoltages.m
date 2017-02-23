@@ -1,15 +1,12 @@
-function results_lf = correct_dnvoltages(mpc, tap_info)
-% It scales the load demant inside the DN to alleviate overvoltages or undervoltages
-% Then is returns the power flow result
+function results_lf = correct_dnvoltages(mpc)
+% It scales the load demand inside the DN to alleviate overvoltages or undervoltages
+% Then it returns the power flow result
 
 define_constants;
 
 % Selection of the turns ratio of the tap_changing transformer
-tap_increment = (tap_info.tap_max - tap_info.tap_min)/tap_info.tap_steps;
-start_tapvalue = mpc.branch(1:2,TAP);
-b = 3;
-
-mpc.branch(1:2,TAP) = start_tapvalue - b*tap_increment;
+%tap_increment = (tap_info.tap_max - tap_info.tap_min)/tap_info.tap_steps;
+%start_tapvalue = mpc.branch(1:2,TAP);
 
 iterations = 0;
 undervoltage = true;

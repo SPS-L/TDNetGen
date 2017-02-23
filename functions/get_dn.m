@@ -16,7 +16,7 @@ mpc.gen(:,QG) = 0;
 mpc.bus(:,PD:QD) = oversize*mpc.bus(:,PD:QD);
 
 % Get a power flow calculation with voltages within boundaries
-results_default = correct_dnvoltages(mpc, tap_info);
+results_default = correct_dnvoltages(mpc);
 results_default.gen(6:end,:) = [];
 
 if(oversize > 1.0)
@@ -178,6 +178,7 @@ if(penetration_level > 0)
                 fail = true;
             end
         end
+        
         for k=1:100
             results_lf{k} = results;
         end
