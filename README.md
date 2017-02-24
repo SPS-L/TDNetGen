@@ -6,9 +6,9 @@ Please check XYZ link to paper for more information.
 
 ### Model overview
  
-![picture](img/abc.png)
+![picture](images/TN_topo.png)
 
-![picture](img/abc.png)
+![picture](images/DN_topo.png)
 
 ### Setup and use
 
