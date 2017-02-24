@@ -7,10 +7,10 @@ Please check XYZ link to paper for more information.
 ### Model overview
  
 The transmission network is based on the well-known Nordic32 system sketched below:
-![picture](images/TN_topo.png =250x)
+![picture](images/TN_topo.png =150x)
 
 The distribution network is based on a 75-bus radial system sketched below:
-![picture](images/DN_topo.png =250x)
+![picture](images/DN_topo.png =150x)
 
 ### Setup and use
 
