@@ -4,15 +4,9 @@
 
 Please check XYZ link to paper for more information.
 
-### Model overview
+### About
  
-The transmission network is based on the well-known Nordic32 system sketched below:
-
-![TN Network](images/TN_topo.png =150x)
-
-The distribution network is based on a 75-bus radial system sketched below:
-
-![DN Network](images/DN_topo.png =150x)
+TDNetGen is an open-source MATLAB toolbox is presented to generate combined transmission and distribution network test models. These models can be used to analyze the interactions between transmission and multiple distribution systems in areas such as provision of ancillary services by active distribution grids, co-optimization of planning and operation, emergency control and protection schemes spanning over different voltage levels, analyzing combined market aspects, etc. The generated system can be customized based on various parameters selected by the user, including renewable energy penetration, size of final system, and more.
 
 ### Setup and use
 
