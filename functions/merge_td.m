@@ -1,4 +1,4 @@
-function [results_td, pv, mt] = merge_td(resultslf_tn, resultslf_dn, pv_buses, non_dn, non_split, penetration_level, constant_load, pv_power, mt_power)
+function [results_td, pv, mt] = merge_td(resultslf_tn, resultslf_dn, pv_buses, non_dn, non_split, penetration_level, constant_load, distributed_generation, mt_power)
 % Creates the final topology including every node of the T&D system
 
 define_constants;
@@ -29,7 +29,7 @@ for i=1:size(resultslf_dn,1)
     for k=1:number_pv
         index = int2str(pv_buses(k+4));
     	pv((i-1)*number_pv+k,1) = internal_dn_node(main, str2double(index(3:4)));
-        pv((i-1)*number_pv+k,2) = pv_power(i);
+        pv((i-1)*number_pv+k,2) = distributed_generation(i);
     end
   
     % Put all the branches together
