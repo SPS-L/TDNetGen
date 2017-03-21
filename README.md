@@ -1,3 +1,4 @@
+[![DOI](https://zenodo.org/badge/85711602.svg)](https://zenodo.org/badge/latestdoi/85711602)
 
 # TDNetGen: An open-source, parametrizable, large-scale, combined, transmission and distribution test system
 ## Power Systems Laboratory, ETH Zürich
