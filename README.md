@@ -1,4 +1,5 @@
 [![DOI](https://zenodo.org/badge/85711602.svg)](https://zenodo.org/badge/latestdoi/85711602)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/apetros/TDNetGen/edit/master/LICENSE)
 
 # TDNetGen: An open-source, parametrizable, large-scale, combined, transmission and distribution test system
 ## Power Systems Laboratory, ETH Zürich
