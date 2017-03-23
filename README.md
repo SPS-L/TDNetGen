@@ -2,7 +2,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/apetros/TDNetGen/edit/master/LICENSE)
 
 # TDNetGen: An open-source, parametrizable, large-scale, combined, transmission and distribution test system
-## Power Systems Laboratory, ETH Zürich
+## Power Systems Laboratory, ETH Zürich, 2017
 
 ### About
  
@@ -14,9 +14,9 @@ Please check XYZ link to paper for more information and better explanation of th
 
 1. Before using the toolbox, it is necessary to download Matpower from http://www.pserc.cornell.edu/matpower/
 
-2. In the file 'parameters.m', change the parameter 'matpower_path' to direct to the downloaded matpower folder (absolute or relative path). This tool has been tested with Matpower 6.0, newer versions should be compatible but not tested
+2. In the file 'parameters.m', change the parameter 'matpower_path' to direct to the downloaded matpower folder (absolute or relative path).
 
-3. Change the other parameters in 'parameters.m' according to the system that you want to generate
+3. Change the other parameters in 'parameters.m' according to the system that you want to generate.
 
 4. Run 'main.m'
 
