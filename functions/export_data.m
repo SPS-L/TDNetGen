@@ -25,7 +25,7 @@ function results_lf = export_data(export_format, results_lf, tap_info, penetrati
 	% Custom exporters
 	
     if(strcmp(export_format,'artere') || strcmp(export_format,'ramses'))
-        filename = ['output_data/' export_format '/cl' num2str(constant_load) '_pl' num2str(penetration_level) '_gw' num2str(generation_weight) '.dat'];
+        filename = ['output_data/' export_format '/cl' num2str(constant_load) '_pl' num2str(penetration_level) '_gw' num2str(generation_weight) '_lf.dat'];
         for i=1:size(tap_info,1)
             if(tap_info(i,1) < 100 && tap_info(i,1) ~= 0)
                 tap_info(i,1) = dnbus2int(tap_info(i,1),0);
@@ -36,7 +36,7 @@ function results_lf = export_data(export_format, results_lf, tap_info, penetrati
     end
     
     if(strcmp(export_format,'ramses'))
-        filename = ['output_data/' export_format '/cl' num2str(constant_load) '_pl' num2str(penetration_level) '_gw' num2str(generation_weight) '.dat'];
+        filename = ['output_data/' export_format '/cl' num2str(constant_load) '_pl' num2str(penetration_level) '_gw' num2str(generation_weight) '_dyn.dat'];
         export_ramses(filename, constant_load, penetration_level, generation_weight, run_opf, results_lf, tap_info, pv, mt, distributed_generation, mt_power);
     end
 
